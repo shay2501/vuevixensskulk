@@ -20,9 +20,15 @@
       <v-btn to="/">Go to homepage</v-btn>
     </div>
     <v-form v-else v-model="valid">
-      <v-text-field label="Name" v-model="name"></v-text-field>
-      <v-text-field label="Email" v-model="email"></v-text-field>
-      <v-text-field label="Phone" v-model="phone"></v-text-field>
+      <v-text-field label="Name" v-model="name" required :rules="nameRules"></v-text-field>
+      <v-text-field label="Email" v-model="email" required :rules="emailRules"></v-text-field>
+      <v-text-field
+        label="Phone"
+        v-model="phone"
+        required
+        :rules="phoneRules"
+        v-mask="'(###) ### - ####'"
+      ></v-text-field>
       <v-btn @click="submit" :disabled="!valid">Submit</v-btn>
     </v-form>
   </div>
@@ -30,15 +36,32 @@
 
 
 
+
 <script>
+import { mask } from "vue-the-mask";
 export default {
+  directives: { mask },
   data() {
     return {
       name: "",
       email: "",
       phone: "",
       submitted: false,
-      valid: true
+      valid: true,
+      nameRules: [
+        name => !!name || "Please enter a name!",
+        name => name.length > 2 || "Name must have more than 2 characters!"
+      ],
+      emailRules: [
+        email => !!email || "Email is required",
+        email =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) ||
+          "Email must be valid"
+      ],
+      phoneRules: [
+        phone => !!phone || "Phone is required",
+        phone => phone.length >= 7 || "Phone number should be at least 7 digits"
+      ]
     };
   },
   methods: {
@@ -51,6 +74,7 @@ export default {
         "Phone:",
         this.phone
       );
+      this.$store.dispatch("clearFavorites");
       this.submitted = true;
     }
   }
