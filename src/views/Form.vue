@@ -2,7 +2,27 @@
   <div class="form-wrapper">
     <v-form>
       <div class="form-wrapper">
-        <v-form>
+        <div class="text-xs-center" v-if="submitted">
+          <h2>Thank you for you interest, we will contact you soon</h2>
+          <div class="details text-xs-left">
+            <h3 class="blue-grey--text">Customer details</h3>
+            <p>
+              <strong>Name:</strong>
+              {{name}}
+            </p>
+            <p>
+              <strong>Email:</strong>
+              {{email}}
+            </p>
+            <p>
+              <strong>Phone:</strong>
+              {{phone}}
+            </p>
+          </div>
+          <v-btn to="/">Go to homepage</v-btn>
+        </div>
+
+        <v-form v-else>
           <v-text-field label="Name" v-model="name"></v-text-field>
           <v-text-field label="Email" v-model="email"></v-text-field>
           <v-text-field label="Phone" v-model="phone"></v-text-field>
@@ -19,7 +39,8 @@ export default {
     return {
       name: "",
       email: "",
-      phone: ""
+      phone: "",
+      submitted: false
     };
   },
   methods: {
@@ -32,6 +53,7 @@ export default {
         "Phone:",
         this.phone
       );
+      this.submitted = true;
     }
   }
 };
@@ -43,5 +65,11 @@ export default {
 .form-wrapper {
   padding: 40px;
   text-align: center;
+}
+.details {
+  padding-top: 30px;
+}
+h3 {
+  padding-bottom: 20px;
 }
 </style>
