@@ -7,6 +7,7 @@ import store from "./store/store";
 
 import vuetify from "@/plugins/vuetify";
 import VueRouter from "vue-router";
+import Form from "./views/Form";
 
 Vue.config.productionTip = false;
 
@@ -21,7 +22,8 @@ const routes = [
     path: "/pets",
     component: Pets
   },
-  { path: "/favorites", component: Favorites }
+  { path: "/favorites", component: Favorites },
+  { path: "/form", component: Form }
 ];
 
 const router = new VueRouter({ routes });
